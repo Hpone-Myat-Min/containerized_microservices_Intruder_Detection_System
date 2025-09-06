@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, jsonify
 import serial
 import time
 import threading
@@ -25,7 +25,6 @@ def listen_bluetooth():
                     print("Failed to trigger service: ", e)
 
                 time.sleep(15)
-                is_monitoring = False
         
         except Exception as e:
             print("Listener service error: ", e)
@@ -34,6 +33,12 @@ def listen_bluetooth():
 app.route("/")
 def index():
     return "Listener Service is running"
+
+def monitoring_completed():
+    global is_monitoring 
+    is_monitoring = False
+    print("Monitoring process is completed, available to detect new")
+    return jsonify({"status": "ok"}), 200
 
 if __name__ == "__main__":
     threading.Thread(target=listen_bluetooth, daemon=True).start()

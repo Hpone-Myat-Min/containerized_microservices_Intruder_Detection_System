@@ -1,5 +1,5 @@
 from flask import Flask, jsonify
-from picamera2 import Picamera2, Preview
+# from picamera2 import Picamera2, Preview
 from datetime import datetime
 import os
 import time
@@ -19,34 +19,37 @@ def start_monitoring():
     is_monitoring = True
     print("Monitoring Service is starting")
 
-    picam = Picamera2()
-    picam.start_preview(Preview.QT)
-    picam.start()
-
-    image_paths = []
-
-    capture_start_time = time.time()                                     # overall start time of image capturing
-
     for i in range(10):
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S_%f")
-        filename = "image_" + timestamp + "_" + str(i)
-        filepath = os.path.join(IMAGES_DIR, filename)
-        picam.capture_file(filepath)
+        print(i)
 
-        image_paths.append(filepath)
-        print(f"Image {i} is captured")
-        time.sleep(1)
+    # picam = Picamera2()
+    # picam.start_preview(Preview.QT)
+    # picam.start()
 
-    capture_end_time = time.time()                                      # overall end time of image capturing
-    picam.stop_preview()
-    picam.close()
+    # image_paths = []
 
-    try:
-        response = requests.post(CLOUD_SERVICE_URL, json={"image_paths": image_paths})
-        print("Triggered Cloud Communication Service: ", response.status_code)
+    # capture_start_time = time.time()                                     # overall start time of image capturing
 
-    except Exception as e:
-        print("Failed to connect Cloud Communication Service: ", e)
+    # for i in range(10):
+    #     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S_%f")
+    #     filename = "image_" + timestamp + "_" + str(i)
+    #     filepath = os.path.join(IMAGES_DIR, filename)
+    #     picam.capture_file(filepath)
+
+    #     image_paths.append(filepath)
+    #     print(f"Image {i} is captured")
+    #     time.sleep(1)
+
+    # capture_end_time = time.time()                                      # overall end time of image capturing
+    # picam.stop_preview()
+    # picam.close()
+    print("Monitoring service completed")
+    # try:
+    #     response = requests.post(CLOUD_SERVICE_URL, json={"image_paths": image_paths})
+    #     print("Triggered Cloud Communication Service: ", response.status_code)
+
+    # except Exception as e:
+    #     print("Failed to connect Cloud Communication Service: ", e)
 
     try: 
         response = requests.post("http://listener:5000/capture_complete")

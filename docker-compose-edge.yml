@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+
+  listener:
+    build: ./listener_service
+    container_name: listener_service
+    restart: always
+    ports:
+      - "5000:5000"
+    devices:
+      - "/dev/rfcomm0:/dev/rfcomm0"
+    depends_on:
+      - monitor
+
+  monitor:
+    build: ./monitoring_service
+    container_name: monitor_service
+    restart: always
+    ports:
+      - "5001:5000"
+    privileged: true
+    devices:
+      - "/dev/vchiq"
+      - "/dev/video0"
+    volumes:
+      - ./shared_images:/app/Images
+      - /opt/vc:/opt/vc
+    environment:
+      - LD_LIBRARY_PATH=/opt/vc/lib
+

@@ -8,9 +8,11 @@ app = Flask(__name__)
 
 is_monitoring = False
 serial_port = serial.Serial('/dev/rfcomm0', baudrate=9600, timeout=1)
-MONITORING_URL = ""
+MONITORING_URL = "http://monitor:5000/start"
 
 def listen_bluetooth():
+    global is_monitoring
+    
     while True:
         try:
             motion_status = serial_port.readline().decode('utf-8').strip() # listening for bluetooth serial signal
@@ -30,10 +32,11 @@ def listen_bluetooth():
             print("Listener service error: ", e)
             time.sleep(2)
 
-app.route("/")
+@app.route("/")
 def index():
     return "Listener Service is running"
 
+@app.route("/capture_complete", methods=["POST"])
 def monitoring_completed():
     global is_monitoring 
     is_monitoring = False

@@ -1,5 +1,5 @@
 from flask import Flask, jsonify
-# from picamera2 import Picamera2, Preview
+from picamera2 import Picamera2
 from datetime import datetime
 import os
 import time
@@ -22,27 +22,27 @@ def start_monitoring():
     for i in range(10):
         print(i)
 
-    # picam = Picamera2()
+    picam = Picamera2()
     # picam.start_preview(Preview.QT)
-    # picam.start()
+    picam.start()
 
-    # image_paths = []
+    image_paths = []
 
-    # capture_start_time = time.time()                                     # overall start time of image capturing
+    capture_start_time = time.time()                                     # overall start time of image capturing
 
-    # for i in range(10):
-    #     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S_%f")
-    #     filename = "image_" + timestamp + "_" + str(i)
-    #     filepath = os.path.join(IMAGES_DIR, filename)
-    #     picam.capture_file(filepath)
+    for i in range(10):
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S_%f")
+        filename = "image_" + timestamp + "_" + str(i) + ".jpg"
+        filepath = os.path.join(IMAGES_DIR, filename)
+        picam.capture_file(filepath)
 
-    #     image_paths.append(filepath)
-    #     print(f"Image {i} is captured")
-    #     time.sleep(1)
+        image_paths.append(filepath)
+        print(f"Image {i} is captured")
+        time.sleep(1)
 
-    # capture_end_time = time.time()                                      # overall end time of image capturing
+    capture_end_time = time.time()                                      # overall end time of image capturing
     # picam.stop_preview()
-    # picam.close()
+    picam.close()
     print("Monitoring service completed")
     # try:
     #     response = requests.post(CLOUD_SERVICE_URL, json={"image_paths": image_paths})
@@ -53,6 +53,7 @@ def start_monitoring():
 
     try: 
         response = requests.post("http://listener:5000/capture_complete")
+        return jsonify({"status": "ok"}), 200
         print("Notified availability to Listener Service: ", response.status_code)
     except Exception as e:
         print("Failed to notify listener service: ", e)

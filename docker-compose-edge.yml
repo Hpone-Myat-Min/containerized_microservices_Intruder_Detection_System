@@ -21,11 +21,14 @@ services:
       - "5001:5000"
     privileged: true
     devices:
-      - "/dev/vchiq"
-      - "/dev/video0"
+      - "/dev/vchiq:/dev/vchiq"
+      # - "/dev/vchiq"
+      # - "/dev/video0"
     volumes:
       - ./shared_images:/app/Images
-      - /opt/vc:/opt/vc
-    environment:
-      - LD_LIBRARY_PATH=/opt/vc/lib
+      # - /opt/vc:/opt/vc
+      - /run/udev:/run/udev:ro
+    # environment:
+    #   - LD_LIBRARY_PATH=/opt/vc/lib
+    #   - PYTHONUNBUFFERED=1
 

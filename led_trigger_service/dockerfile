@@ -1,0 +1,14 @@
+FROM debian:bookworm
+
+WORKDIR /app
+
+COPY . /app
+
+RUN apt-get update && apt-get -y install --no-install-recommends \
+    python3-pip \
+    python3-smbus \
+    i2c-tools
+
+RUN pip install --break-system-packages --no-cache-dir -r requirements.txt
+
+CMD ["python3", "main.py"]

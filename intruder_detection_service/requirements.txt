@@ -2,4 +2,5 @@ flask
 numpy==1.25.2
 pillow
 boto3
+requests
 tflite_runtime==2.14.0

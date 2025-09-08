@@ -131,12 +131,12 @@ def analyse_image(image_path):
 
         if intruder_score >= 0.4 and jason_score < 0.70:
             decision = "INTRUDER"
-        elif jason_score>= 0.70 and intruder_score< 0.40:
+        elif jason_score >= 0.70 and intruder_score < 0.40:
             decision = "JASON"
         elif intruder_score >=0.40 and jason_score >= 0.70:
-            decision = "JASON"
+            decision = "INTRUDER"
         else:
-            decision = "JASON"
+            decision = "INTRUDER"
     
     else:
         decision = "INTRUDER"

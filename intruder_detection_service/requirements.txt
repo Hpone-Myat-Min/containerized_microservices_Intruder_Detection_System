@@ -1,0 +1,5 @@
+flask
+numpy==1.25.2
+pillow
+boto3
+tflite_runtime==2.14.0

@@ -48,3 +48,14 @@ services:
     depends_on:
       - monitor
 
+  detection_service:
+    build: ./intruder_detection_service
+    container_name: intruder_detection_service
+    restart: always
+    ports:
+      - "5003:5000"
+    volumes:
+      - ./shared_images:/app/Images
+    environment:
+      - DEPLOYMENT_MODE=Edge
+

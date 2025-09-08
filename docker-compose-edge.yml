@@ -32,3 +32,18 @@ services:
     #   - LD_LIBRARY_PATH=/opt/vc/lib
     #   - PYTHONUNBUFFERED=1
 
+  upload:
+    build: ./cloud_communication_service
+    container_name: cloud_communication_service
+    restart: always
+    ports:
+      - "5002:5000"
+    volumes:
+      - ./shared_images:/app/Images
+    # environment:
+    #   - AWS_ACCESS_KEY_ID=
+    #   - AWS_SECRET_ACCESS_KEY=
+    #   - AWS_DEFAULT_REGION=
+    depends_on:
+      - monitor
+

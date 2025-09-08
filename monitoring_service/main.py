@@ -8,7 +8,7 @@ import requests
 
 app = Flask(__name__)
 
-CLOUD_SERVICE_URL = ""
+CLOUD_SERVICE_URL = "http://upload:5000/upload"
 IMAGES_DIR = "/app/Images"
 
 is_monitoring = False
@@ -44,12 +44,13 @@ def start_monitoring():
     # picam.stop_preview()
     picam.close()
     print("Monitoring service completed")
-    # try:
-    #     response = requests.post(CLOUD_SERVICE_URL, json={"image_paths": image_paths})
-    #     print("Triggered Cloud Communication Service: ", response.status_code)
 
-    # except Exception as e:
-    #     print("Failed to connect Cloud Communication Service: ", e)
+    try:
+        response = requests.post(CLOUD_SERVICE_URL, json={"image_paths": image_paths})
+        print("Triggered Cloud Communication Service: ", response.status_code)
+
+    except Exception as e:
+        print("Failed to connect Cloud Communication Service: ", e)
 
     try: 
         response = requests.post("http://listener:5000/capture_complete")

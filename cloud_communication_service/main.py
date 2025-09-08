@@ -14,6 +14,13 @@ S3_BUCKET = "intruder-detection-images"
 IMAGES_DIR = "/app/Images"
 image_queue = Queue()
 
+DEPLOYMENT_MODE =os.getenv("DEPLOYMENT_MODE", "Edge")
+
+if DEPLOYMENT_MODE == "Edge":
+    DETECTION_SERVICE_ENDPOINT = "http://detection_service:5000/detect"
+else:
+    DETECTION_SERVICE_ENDPOINT = "http://detection_service:5000/detect"
+
 def upload_to_cloud(file_paths):
     # Uploading captured images to S3 bucket
     filenames = []
@@ -28,18 +35,22 @@ def upload_to_cloud(file_paths):
             print("File not found")
         except NoCredentialsError:
             print("Credentials not found")
-    
-    image_queue.put(filenames) # Put the images into queue to trigger the cloud 
+        
+    if DEPLOYMENT_MODE == "Edge":
+        image_queue.put(file_paths)
+    else:
+        image_queue.put(filenames) # Put the images into queue to trigger the cloud 
+     
 
-def trigger_cloud():
+def trigger_detection_service():
     # Trigger Cloud by sending POST request to its endpoint
     while True:
         images = image_queue.get()
         if images:
             try:
-                # response = requests.post(EC2_API_URL, json={"images":images})
-                # result = response.json()
-                # print(f"{result}")
+                response = requests.post(DETECTION_SERVICE_ENDPOINT, json={"images":images})
+                result = response.json()
+                print(f"{result}")
                 return jsonify({"status": "Done"})
 
                 # if result["results"] == "INTRUDER":
@@ -60,9 +71,11 @@ def cloud_service_endpoint():
         
         upload_to_cloud(filepaths)
         return jsonify({"status": "OK", "Files": len(filepaths)}), 200
+    
     except Exception as e:
         return jsonify({"status": e}), 500
 
 if __name__ == "__main__":
+    threading.Thread(target=trigger_detection_service, daemon=True).start()
     app.run(host="0.0.0.0", port=5000)
     

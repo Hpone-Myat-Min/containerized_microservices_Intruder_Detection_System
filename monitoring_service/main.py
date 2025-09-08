@@ -19,9 +19,6 @@ def start_monitoring():
     is_monitoring = True
     print("Monitoring Service is starting")
 
-    for i in range(10):
-        print(i)
-
     picam = Picamera2()
     # picam.start_preview(Preview.QT)
     picam.start()

@@ -29,6 +29,7 @@ mobilenet_input = mobilenet_interpreter.get_input_details()
 mobilenet_output = mobilenet_interpreter.get_output_details()
 
 DEPLOYMENT_MODE =os.getenv("DEPLOYMENT_MODE", "Edge")
+TRIGGER_ENDPOINT = "http://trigger_service:5000/trigger"
 s3 = boto3.client('s3')
 S3_BUCKET = "intruder-detection-images"
 app = Flask(__name__)
@@ -41,8 +42,10 @@ def detect():
 
     for image in image_files:
         if DEPLOYMENT_MODE == "Edge":
+            TRIGGER_ENDPOINT = "http://trigger_service:5000/trigger"
             image_path = image
         else:
+            TRIGGER_ENDPOINT = "http://148.252.146.22:5003/trigger"
             image_path = os.path.join("static/images", os.path.basename(image))
             try:
                 s3.download_file(S3_BUCKET, image, image_path)
@@ -58,7 +61,7 @@ def detect():
         print("Final Decision: ", final, flush=True)
         if final == "INTRUDER":
             try:
-                response = requests.post("http://trigger_service:5000/trigger",json={"result": final})
+                response = requests.post(TRIGGER_ENDPOINT,json={"result": final})
             except Exception as e:
                 print("Failed: ", e)
         return jsonify({"results": final})

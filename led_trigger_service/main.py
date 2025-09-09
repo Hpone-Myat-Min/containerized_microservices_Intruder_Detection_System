@@ -1,7 +1,6 @@
 from rgbmatrix5x5 import RGBMatrix5x5
-from flask import Flask, jsonify
+from flask import Flask, request, jsonify
 import time
-import requests
 
 rgbmatrix = RGBMatrix5x5()
 app = Flask(__name__)
@@ -9,19 +8,18 @@ app = Flask(__name__)
 @app.route("/trigger", methods=["POST"])
 def trigger_alert():
 
-    data = requests.get_json()
+    data = request.get_json()
+    result = data.get("result")
     if not data or data.get("result") != "INTRUDER":
         return jsonify({"message": "Pass"}), 400
     
     rgbmatrix = RGBMatrix5x5()
+    rgbmatrix.set_all(255, 0, 0)
+    rgbmatrix.show()
 
-
-    # rgbmatrix.set_all(255, 0, 0)
-    # rgbmatrix.show()
-
-    # time.sleep(10)
-    # rgbmatrix.clear()
-    # rgbmatrix.show()
+    time.sleep(10)
+    rgbmatrix.clear()
+    rgbmatrix.show()
 
     return jsonify({"message": "LED Trigger"}), 200
 

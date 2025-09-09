@@ -7,7 +7,7 @@ import boto3
 from botocore.exceptions import NoCredentialsError
 from PIL import Image
 from queue import Queue
-from flask import Flask,jsonify
+from flask import Flask,request, jsonify
 import requests
 import os
 
@@ -35,7 +35,8 @@ app = Flask(__name__)
 
 @app.route("/detect", methods=["POST"])
 def detect():
-    image_files = requests.json.get("images",[])
+    data = request.get_json()
+    image_files =  data.get("images")
     valid_images = []
 
     for image in image_files:
@@ -57,7 +58,7 @@ def detect():
         print("Final Decision: ", final, flush=True)
         if final == "INTRUDER":
             try:
-                response = requests.post("http://trigger_service:5000/trigger")
+                response = requests.post("http://trigger_service:5000/trigger",json={"result": final})
             except Exception as e:
                 print("Failed: ", e)
         return jsonify({"results": final})

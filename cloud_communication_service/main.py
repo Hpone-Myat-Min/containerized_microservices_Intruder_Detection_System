@@ -50,8 +50,8 @@ def trigger_detection_service():
             try:
                 response = requests.post(DETECTION_SERVICE_ENDPOINT, json={"images":images})
                 result = response.json()
-                print(f"{result}")
-                return jsonify({"status": "Done"})
+                print(f"{result}", flush=True)
+                # return jsonify({"status": "Done"})
 
                 # if result["results"] == "INTRUDER":
                 #     trigger_alert()

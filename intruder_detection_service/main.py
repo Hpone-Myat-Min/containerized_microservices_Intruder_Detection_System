@@ -48,6 +48,7 @@ def detect():
             TRIGGER_ENDPOINT = "http://148.252.146.22:5003/trigger"
             image_path = os.path.join("static/images", os.path.basename(image))
             try:
+                os.makedirs(os.path.dirname(image_path), exist_ok=True)
                 s3.download_file(S3_BUCKET, image, image_path)
             except Exception as e:
                 print(f"Download error:", e)

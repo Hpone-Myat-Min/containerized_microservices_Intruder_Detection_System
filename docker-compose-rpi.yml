@@ -1,4 +1,4 @@
-version: '3.8'
+# version: '3.8'
 
 services:
 
@@ -10,8 +10,8 @@ services:
       - "5000:5000"
     devices:
       - "/dev/rfcomm0:/dev/rfcomm0"
-    depends_on:
-      - monitor
+    # depends_on:
+    #   - monitor
 
   monitor:
     build: ./monitoring_service

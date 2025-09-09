@@ -45,7 +45,7 @@ def detect():
             TRIGGER_ENDPOINT = "http://trigger_service:5000/trigger"
             image_path = image
         else:
-            TRIGGER_ENDPOINT = "http://148.252.146.22:5003/trigger"
+            TRIGGER_ENDPOINT = "http://148.252.146.22:5004/trigger"
             image_path = os.path.join("static/images", os.path.basename(image))
             try:
                 os.makedirs(os.path.dirname(image_path), exist_ok=True)

@@ -19,7 +19,7 @@ DEPLOYMENT_MODE =os.getenv("DEPLOYMENT_MODE", "Edge")
 if DEPLOYMENT_MODE == "Edge":
     DETECTION_SERVICE_ENDPOINT = "http://detection_service:5000/detect"
 else:
-    DETECTION_SERVICE_ENDPOINT = "http://detection_service:5000/detect"
+    DETECTION_SERVICE_ENDPOINT = "http://56.228.35.90:5003/detect"
 
 def upload_to_cloud(file_paths):
     # Uploading captured images to S3 bucket

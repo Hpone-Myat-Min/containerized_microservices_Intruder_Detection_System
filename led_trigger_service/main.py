@@ -8,10 +8,12 @@ app = Flask(__name__)
 @app.route("/trigger", methods=["POST"])
 def trigger_alert():
 
-    data = request.get_json()
-    result = data.get("result")
-    if not data or data.get("result") != "INTRUDER":
-        return jsonify({"message": "Pass"}), 400
+    # data = request.get_json()
+    # result = data.get("result")
+    # print(f"{data}", flush=True)
+
+    # if not data or data.get("result") != "INTRUDER":
+    #     return jsonify({"message": "Pass"}), 400
     
     rgbmatrix = RGBMatrix5x5()
     rgbmatrix.set_all(255, 0, 0)

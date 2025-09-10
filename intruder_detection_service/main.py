@@ -42,10 +42,10 @@ def detect():
 
     for image in image_files:
         if DEPLOYMENT_MODE == "Edge":
-            TRIGGER_ENDPOINT = "http://trigger_service:5000/trigger"
+            # TRIGGER_ENDPOINT = "http://trigger_service:5000/trigger"
             image_path = image
         else:
-            TRIGGER_ENDPOINT = "http://148.252.146.22:5004/trigger"
+            # TRIGGER_ENDPOINT = "http://148.252.146.22:5004/trigger"
             image_path = os.path.join("static/images", os.path.basename(image))
             try:
                 os.makedirs(os.path.dirname(image_path), exist_ok=True)
@@ -60,11 +60,11 @@ def detect():
         results = [analyse_image(img) for img in valid_images]
         final = max(set(results),key=results.count)
         print("Final Decision: ", final, flush=True)
-        if final == "INTRUDER":
-            try:
-                response = requests.post(TRIGGER_ENDPOINT,json={"result": final})
-            except Exception as e:
-                print("Failed: ", e)
+        # if final == "INTRUDER":
+        #     try:
+        #         response = requests.post(TRIGGER_ENDPOINT,json={"result": final})
+        #     except Exception as e:
+        #         print("Failed: ", e)
         return jsonify({"results": final})
     else:
         return jsonify({"results":"No person"})

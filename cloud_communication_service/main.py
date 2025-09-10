@@ -21,6 +21,8 @@ if DEPLOYMENT_MODE == "Edge":
 else:
     DETECTION_SERVICE_ENDPOINT = "http://56.228.35.90:5003/detect"
 
+TRIGGER_SERVICE_ENDPOINT = "http://trigger_service:5000/trigger"
+
 def upload_to_cloud(file_paths):
     # Uploading captured images to S3 bucket
     filenames = []
@@ -51,10 +53,9 @@ def trigger_detection_service():
                 response = requests.post(DETECTION_SERVICE_ENDPOINT, json={"images":images})
                 result = response.json()
                 print(f"{result}", flush=True)
-                # return jsonify({"status": "Done"})
 
-                # if result["results"] == "INTRUDER":
-                #     trigger_alert()
+                if result["results"] == "INTRUDER":
+                    response = requests.post(TRIGGER_SERVICE_ENDPOINT)
 
             except Exception as e:
                 print("Failed",e)

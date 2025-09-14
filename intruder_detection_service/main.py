@@ -40,8 +40,8 @@ def detect():
     image_files =  data.get("images")
     valid_images = []
 
-    detect_start_time = time.time()#T6
-    print(f"Detection starting at: {detect_start_time}", flush=True)
+    # detect_start_time = time.time()#T6
+    # print(f"Detection starting at: {detect_start_time}", flush=True)
 
 
     for image in image_files:
@@ -63,9 +63,9 @@ def detect():
     if valid_images:
         results = [analyse_image(img) for img in valid_images]
         final = max(set(results),key=results.count)
-        print("Final Decision: ", final + time.time(), flush=True)
-        detect_end_time = time.time() #T7
-        print(f"Detection ending at: {detect_end_time}", flush=True)
+        print("Final Decision: ", final, flush=True)
+        # detect_end_time = time.time() #T7
+        # print(f"Detection ending at: {detect_end_time}", flush=True)
 
         # if final == "INTRUDER":
         #     try:
@@ -74,8 +74,8 @@ def detect():
         #         print("Failed: ", e)
         return jsonify({"results": final})
     else:
-        detect_end_time = time.time() #T7
-        print(f"Detection ending at: {detect_end_time}", flush=True)
+        # detect_end_time = time.time() #T7
+        # print(f"Detection ending at: {detect_end_time}", flush=True)
         return jsonify({"results":"No person"})
         
 

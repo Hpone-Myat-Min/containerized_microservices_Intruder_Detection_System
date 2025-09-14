@@ -57,14 +57,16 @@ def trigger_detection_service():
         images = image_queue.get()
         if images:
             try:
+                print(f"Detect starting time: {time.time()}", flush=True)
                 response = requests.post(DETECTION_SERVICE_ENDPOINT, json={"images":images})
                 result = response.json()
                 print(f"{result}", flush=True)
+                print(f"Detect ending time: {time.time()}", flush=True)
 
                 if result["results"] == "INTRUDER":
                     response = requests.post(TRIGGER_SERVICE_ENDPOINT)
                 else:
-                    print(f"Overall ending time: {time.time()}")
+                    print(f"Overall ending time: {time.time()}", flush=True)
 
 
             except Exception as e:

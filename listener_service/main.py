@@ -19,7 +19,7 @@ def listen_bluetooth():
             if motion_status == "MOTION_DETECTED" and not is_monitoring:
                 print("PIR detects motion and now camera will be open")
                 start_time = time.time() #T1
-                print(f"System starting at: {start_time}")
+                print(f"System starting at: {start_time}", flush=True)
                 is_monitoring = True
 
                 try:

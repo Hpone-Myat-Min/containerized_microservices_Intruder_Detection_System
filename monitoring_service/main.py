@@ -26,7 +26,7 @@ def start_monitoring():
     image_paths = []
 
     capture_start_time = time.time()                                     # overall start time of image capturing T2
-    print(f"Capture starting at: {capture_start_time}")
+    print(f"Capture starting at: {capture_start_time}", flush=True)
 
     for i in range(10):
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S_%f")
@@ -40,7 +40,7 @@ def start_monitoring():
 
     capture_end_time = time.time()                                      # overall end time of image capturing T3
     # picam.stop_preview()
-    print(f"Capture ending at: {capture_end_time}")
+    print(f"Capture ending at: {capture_end_time}", flush=True)
 
     picam.close()
     print("Monitoring service completed")

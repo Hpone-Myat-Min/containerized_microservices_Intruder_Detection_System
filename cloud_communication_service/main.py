@@ -63,6 +63,9 @@ def trigger_detection_service():
 
                 if result["results"] == "INTRUDER":
                     response = requests.post(TRIGGER_SERVICE_ENDPOINT)
+                else:
+                    print(f"Overall ending time: {time.time()}")
+
 
             except Exception as e:
                 print("Failed",e)

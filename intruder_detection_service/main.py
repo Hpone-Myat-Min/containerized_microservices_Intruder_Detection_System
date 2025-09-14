@@ -63,7 +63,7 @@ def detect():
     if valid_images:
         results = [analyse_image(img) for img in valid_images]
         final = max(set(results),key=results.count)
-        print("Final Decision: ", final, flush=True)
+        print("Final Decision: ", final + time.time(), flush=True)
         detect_end_time = time.time() #T7
         print(f"Detection ending at: {detect_end_time}", flush=True)
 
@@ -75,6 +75,7 @@ def detect():
         return jsonify({"results": final})
     else:
         detect_end_time = time.time() #T7
+        print(f"Detection ending at: {detect_end_time}", flush=True)
         return jsonify({"results":"No person"})
         
 

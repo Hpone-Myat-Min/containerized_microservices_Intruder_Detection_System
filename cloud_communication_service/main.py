@@ -27,6 +27,9 @@ def upload_to_cloud(file_paths):
     # Uploading captured images to S3 bucket
     filenames = []
 
+    upload_start_time = time.time() #T4
+    print(f"Upload starting at: {upload_start_time}")
+
     for file_path in file_paths:
         s3_key = os.path.basename(file_path)
         try:
@@ -37,6 +40,10 @@ def upload_to_cloud(file_paths):
             print("File not found")
         except NoCredentialsError:
             print("Credentials not found")
+
+    upload_end_time= time.time() #T5
+    print(f"Upload ending at: {upload_end_time}")
+
         
     if DEPLOYMENT_MODE == "Edge":
         image_queue.put(file_paths)

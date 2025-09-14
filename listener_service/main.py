@@ -18,6 +18,8 @@ def listen_bluetooth():
             motion_status = serial_port.readline().decode('utf-8').strip() # listening for bluetooth serial signal
             if motion_status == "MOTION_DETECTED" and not is_monitoring:
                 print("PIR detects motion and now camera will be open")
+                start_time = time.time() #T1
+                print(f"System starting at: {start_time}")
                 is_monitoring = True
 
                 try:

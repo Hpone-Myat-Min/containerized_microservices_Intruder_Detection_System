@@ -7,6 +7,8 @@ app = Flask(__name__)
 
 @app.route("/trigger", methods=["POST"])
 def trigger_alert():
+    trigger_start_time=time.time() #T8
+    print(f"LED starting at: {trigger_start_time}")
 
     # data = request.get_json()
     # result = data.get("result")
@@ -22,6 +24,9 @@ def trigger_alert():
     time.sleep(10)
     rgbmatrix.clear()
     rgbmatrix.show()
+    overall_end_time=time.time() #T9
+    print(f"LED ending at: {overall_end_time}")
+
 
     return jsonify({"message": "LED Trigger"}), 200
 

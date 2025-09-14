@@ -40,6 +40,10 @@ def detect():
     image_files =  data.get("images")
     valid_images = []
 
+    detect_start_time = time.time()#T6
+    print(f"Detection starting at: {detect_start_time}")
+
+
     for image in image_files:
         if DEPLOYMENT_MODE == "Edge":
             # TRIGGER_ENDPOINT = "http://trigger_service:5000/trigger"
@@ -60,6 +64,9 @@ def detect():
         results = [analyse_image(img) for img in valid_images]
         final = max(set(results),key=results.count)
         print("Final Decision: ", final, flush=True)
+        detect_end_time = time.time() #T7
+        print(f"Detection ending at: {detect_end_time}")
+
         # if final == "INTRUDER":
         #     try:
         #         response = requests.post(TRIGGER_ENDPOINT,json={"result": final})
@@ -67,6 +74,7 @@ def detect():
         #         print("Failed: ", e)
         return jsonify({"results": final})
     else:
+        detect_end_time = time.time() #T7
         return jsonify({"results":"No person"})
         
 
